@@ -1,8 +1,9 @@
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
+from drf_spectacular.utils import extend_schema_field
 
 from apps.models import Group, Service, Partner, PartnersImage, ClientComment, Article, Companies, Question, Shop, \
-    Agent, TimeManagement, AboutUs
+    Agent, TimeManagement, AboutUs, Answer
 
 
 # Creating dynamic serializer classes means that you can combine the same views
@@ -28,6 +29,7 @@ def create_serializer(model_class, sub_model_class=None, sub_field=None):
         else:
             method_name = f'get_{sub_field}'
 
+            @extend_schema_field(str)
             def get_related_field(self, obj):
                 related_obj = getattr(obj, sub_field, None)
                 return related_obj.working_time if related_obj else None
@@ -43,7 +45,7 @@ PartnerSerializer = create_serializer(Partner, PartnersImage, "images")
 ClientCommentSerializer = create_serializer(ClientComment)
 ArticleSerializer = create_serializer(Article)
 CompaniesSerializer = create_serializer(Companies)
-QuestionSerializer = create_serializer(Question, Question, "questions")
+QuestionSerializer = create_serializer(Question, Answer, "answer")
 ShopSerializer = create_serializer(Shop)
 AgentSerializer = create_serializer(Agent, TimeManagement, "working_time")
 AboutUsSerializer = create_serializer(AboutUs)
