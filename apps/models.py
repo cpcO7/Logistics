@@ -60,7 +60,10 @@ class Article(Model):
     image = ImageField("Image", upload_to='article/')
 
     def __str__(self):
-        return self.title
+        if self.title:
+            return self.title
+
+        return (self.description[:20] + "...") if len(self.description) > 20 else self.description
 
 
 class AppliedClient(Model):
@@ -80,12 +83,12 @@ class Companies(Model):
     url = URLField("Url", max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return f"{self.name}"
 
 
 class Question(Model):
     title = CharField("Title", max_length=255)
-    body = TextField("Body")
 
     def __str__(self):
         return self.title
