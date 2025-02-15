@@ -2,7 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from apps.views import GroupReadOnlyViewSet, ServiceReadOnlyViewSet, PartnerReadOnlyViewSet, ClientCommentViewSet, \
-    ArticleViewSet, CompaniesViewSet, QuestionViewSet, ShopViewSet, AgentViewSet, AboutUsAPIView
+    ArticleViewSet, CompaniesViewSet, QuestionViewSet, ShopViewSet, AgentViewSet, AboutUsAPIView, \
+    AppliedClientCreateApiView
 
 router = DefaultRouter()
 router.register(r'group', GroupReadOnlyViewSet, basename='group')
@@ -18,4 +19,5 @@ router.register(r'agent', AgentViewSet, basename='agent')
 urlpatterns = [
     path('', include(router.urls)),
     path('about-us/', AboutUsAPIView.as_view(), name='about'),
+    path('applied-client/', AppliedClientCreateApiView.as_view(), name='applied-client'),
 ]

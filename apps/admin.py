@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 
 from apps.models import (
-    Statistic, CentralBlock, CompanyInfo, Group, Service, Partner,
+    Statistic, Group, Service, Partner,
     PartnersImage, ClientComment, Article, AppliedClient, Companies,
     Question, Answer, Agent, AboutUs, TimeManagement
 )
 
 models = [
-    Statistic, CentralBlock, CompanyInfo, Group, Service, Partner,
+    Statistic, Group, Service, Partner,
     PartnersImage, ClientComment, Article, Companies,
     Question, Answer, Agent, TimeManagement
 ]
@@ -16,8 +16,8 @@ models = [
 for model in models:
     admin.site.register(model, ModelAdmin)
 
-from django.shortcuts import redirect, render
-from django.urls import reverse, path
+from django.shortcuts import redirect
+from django.urls import reverse
 
 
 @admin.register(AboutUs)
@@ -39,6 +39,22 @@ class AboutUsAdmin(admin.ModelAdmin):
         return super().changelist_view(request, extra_context)
 
 
+    fieldsets = (
+        ("Main Information", {
+            "fields": ("phone_number", "email")
+        }),
+        ("Social Media", {
+            "fields": ("facebook", "twitter", "instagram", "linkedin", "telegram")
+        }),
+        ("Working Time", {
+            "fields": ("work_day", "work_hour_start", "work_hour_end")
+        }),
+        (
+            "Address", {
+                "fields": ("address", "search", "location")
+            }
+        )
+    )
 @admin.register(AppliedClient)
 class AppliedClientAdmin(admin.ModelAdmin):
     list_display = ('phone_number',)

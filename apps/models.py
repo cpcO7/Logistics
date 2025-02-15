@@ -1,32 +1,16 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models import Model, CharField, ImageField, URLField, ForeignKey, CASCADE, TextChoices, EmailField
-from django.db.models.fields import TextField, SmallIntegerField, IntegerField
+from django.db.models import Model, CharField, ImageField, URLField, ForeignKey, CASCADE, EmailField, \
+    TimeField
+from django.db.models.fields import TextField, SmallIntegerField
 from location_field.models.plain import PlainLocationField
 
 
 class Statistic(Model):
     title = CharField("Title", max_length=255)
-    value = CharField("Value", max_length=50)  # Example: "700+", "9,000+", "100%"
-    description = TextField()
+    value = CharField("Value", max_length=50)
 
     def __str__(self):
         return f"{self.value} {self.title}"
-
-
-class CentralBlock(Model):
-    title = CharField("Title", max_length=255)
-    description = TextField("Description")
-
-    def __str__(self):
-        return self.title
-
-
-class CompanyInfo(Model):
-    founded_year = IntegerField("Founded Year")
-    description = TextField("Description")
-
-    def __str__(self):
-        return f"Established in {self.founded_year}"
 
 
 class Group(Model):
@@ -70,7 +54,7 @@ class AppliedClient(Model):
     last_name = CharField("Last Name", max_length=255)
     email = CharField("Email", max_length=255)
     phone_number = CharField("Phone Number", max_length=255)
-    year_experience = IntegerField("Experience")
+    year_experience = SmallIntegerField("Experience")
 
 
 class Companies(Model):
@@ -107,6 +91,14 @@ class Agent(Model):
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
 
 
+WEEK_DAYS = [
+    ("mon-fri", "Monday - Friday"),
+    ("mon-sat", "Monday - Saturday"),
+    ("mon-sun", "Monday - Sunday"),
+    ("sat-sun", "Saturday - Sunday"),
+    ("sun", "Only Sunday"),
+]
+
 class AboutUs(Model):
     phone_number = CharField("Phone Number", max_length=255)
     email = EmailField("Email", max_length=255)
@@ -116,6 +108,11 @@ class AboutUs(Model):
     instagram = URLField("Instagram", null=True, blank=True)
     linkedin = URLField("LinkedIn", null=True, blank=True)
     telegram = URLField("Telegram", null=True, blank=True)
+
+    work_day = CharField("Work Days", max_length=20, choices=WEEK_DAYS, default="mon-fri")
+    work_hour_start = TimeField("Work Start Time", default="09:00")
+    work_hour_end = TimeField("Work End Time", default="18:00")
+
     search = CharField("search", max_length=255, null=True, blank=True)
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
 

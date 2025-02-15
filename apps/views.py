@@ -1,11 +1,14 @@
 from drf_spectacular.utils import extend_schema
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, Agent, AboutUs
+from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, Agent, AboutUs, \
+    AppliedClient
 from apps.serializers import GroupModelSerializer, ServiceModelSerializer, PartnerSerializer, ClientCommentSerializer, \
-    ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, AgentSerializer, AboutUsSerializer
+    ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, AgentSerializer, AboutUsSerializer, \
+    AppliedClientSerializer
 
 
 # Creating dynamic view classes means that you can combine the same views
@@ -38,3 +41,7 @@ class AboutUsAPIView(APIView):
             return Response(serializer.data)
         return Response({"detail": "About us not found"})
 
+
+class AppliedClientCreateApiView(CreateAPIView):
+    model = AppliedClient
+    serializer_class = AppliedClientSerializer
