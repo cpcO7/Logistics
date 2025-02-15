@@ -1,7 +1,13 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 
 SECRET_KEY = 'django-insecure-0j+h4ox5gg$(4tw76u@xcanqme)d%w0zaxerrmdj^zl0@+l2kb'
 
@@ -18,8 +24,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.apps.AppsConfig',
+    'rest_framework',
     'drf_spectacular',
-    "corsheaders"
+    "corsheaders",
+    "location_field.apps.DefaultConfig",
 ]
 
 MIDDLEWARE = [
@@ -94,7 +102,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "apps/static/")
 
 
 MEDIA_URL = 'media/'
@@ -221,7 +229,7 @@ JAZZMIN_SETTINGS = {
     # UI Tweaks #
     #############
     # Relative paths to custom CSS/JS scripts (must be present in static files)
-    "custom_css": None,
+    "custom_css": "admin/custom.css",
     "custom_js": None,
     # Whether to link font from fonts.googleapis.com (use custom_css to supply font otherwise)
     "use_google_fonts_cdn": True,
@@ -269,3 +277,12 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://cpco7.online",
 ]
+
+GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
+
+LOCATION_FIELD = {
+    'provider.google.api': '//maps.google.com/maps/api/js?sensor=false',
+    'provider.google.api_key': os.getenv("GOOGLE_MAPS_API_KEY"),
+    'provider.google.api_libraries': '',
+    'provider.google.map.type': 'ROADMAP',
+}

@@ -9,19 +9,24 @@ from apps.models import (
 
 models = [
     Statistic, CentralBlock, CompanyInfo, Group, Service, Partner,
-    PartnersImage, ClientComment, Article, AppliedClient, Companies,
+    PartnersImage, ClientComment, Article, Companies,
     Question, Answer, Agent, TimeManagement
 ]
 
 for model in models:
     admin.site.register(model, ModelAdmin)
 
+from django.shortcuts import redirect, render
+from django.urls import reverse, path
 
-from django.shortcuts import redirect
-from django.urls import reverse
 
 @admin.register(AboutUs)
 class AboutUsAdmin(admin.ModelAdmin):
+    list_display = ('phone_number',)
+
+    class Media:
+        js = ("admin/js/phone_mask.js",)
+
     def has_add_permission(self, request):
         if AboutUs.objects.exists():
             return False
@@ -32,3 +37,11 @@ class AboutUsAdmin(admin.ModelAdmin):
             obj = AboutUs.objects.first()
             return redirect(reverse('admin:apps_aboutus_change', args=[obj.id]))
         return super().changelist_view(request, extra_context)
+
+
+@admin.register(AppliedClient)
+class AppliedClientAdmin(admin.ModelAdmin):
+    list_display = ('phone_number',)
+
+    class Media:
+        js = ("admin/js/phone_mask.js",)

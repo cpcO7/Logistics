@@ -1,6 +1,7 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models import Model, CharField, ImageField, URLField, ForeignKey, CASCADE, TextChoices
+from django.db.models import Model, CharField, ImageField, URLField, ForeignKey, CASCADE, TextChoices, EmailField
 from django.db.models.fields import TextField, SmallIntegerField, IntegerField
+from location_field.models.plain import PlainLocationField
 
 
 class Statistic(Model):
@@ -65,10 +66,10 @@ class Article(Model):
 
 
 class AppliedClient(Model):
-    first_name = CharField("First_Name", max_length=255)
-    last_name = CharField("Last_Name", max_length=255)
+    first_name = CharField("First Name", max_length=255)
+    last_name = CharField("Last Name", max_length=255)
     email = CharField("Email", max_length=255)
-    phone_number = CharField("Phone_Number", max_length=255)
+    phone_number = CharField("Phone Number", max_length=255)
     year_experience = IntegerField("Experience")
 
 
@@ -100,26 +101,26 @@ class Agent(Model):
     email = CharField("Email", max_length=255, null=True, blank=True)
     job = CharField("Job", max_length=255, null=True, blank=True)
     address = CharField("Address", max_length=255, null=True, blank=True)
-    long = CharField("Longitude", max_length=255, null=True, blank=True)
-    lat = CharField("Latitude", max_length=255, null=True, blank=True)
     working_time = ForeignKey("apps.TimeManagement", CASCADE)
     image = ImageField("Image", upload_to='agent/')
+    search = CharField("search", max_length=255, null=True, blank=True)
+    location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
 
 
 class AboutUs(Model):
     phone_number = CharField("Phone Number", max_length=255)
-    email = CharField("Email", max_length=255)
+    email = EmailField("Email", max_length=255)
     address = CharField("Address", max_length=255)
-    long = CharField("Longitude", max_length=255, null=True, blank=True)
-    lat = CharField("Latitude", max_length=255, null=True, blank=True)
     facebook = URLField("Facebook", null=True, blank=True)
     twitter = URLField("Twitter", null=True, blank=True)
     instagram = URLField("Instagram", null=True, blank=True)
     linkedin = URLField("LinkedIn", null=True, blank=True)
     telegram = URLField("Telegram", null=True, blank=True)
+    search = CharField("search", max_length=255, null=True, blank=True)
+    location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
 
     class Meta:
         verbose_name_plural = "About Us"
 
     def __str__(self):
-        return f"+{self.phone_number}"
+        return f"{self.phone_number}"
