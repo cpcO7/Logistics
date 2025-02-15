@@ -99,7 +99,7 @@ class Answer(Model):
     question = ForeignKey("apps.Question", CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.body
 
 
 class Shop(Model):
