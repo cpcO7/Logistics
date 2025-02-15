@@ -17,16 +17,24 @@ class Group(Model):
     description = TextField("Text")
     image = ImageField("Image", upload_to='companies/')
 
+    def __str__(self):
+        return self.description
+
 
 class Service(Model):
     title = CharField("Title", max_length=255)
     description = TextField("Description")
     image = ImageField("Image", upload_to='service/')
 
+    def __str__(self):
+        return self.title
 
 class Partner(Model):
     title = CharField("Title", max_length=255)
     text = TextField("Text")
+
+    def __str__(self):
+        return self.title
 
 
 class PartnersImage(Model):
@@ -42,11 +50,17 @@ class ClientComment(Model):
     image = ImageField("Image", upload_to='client/')
     rating = SmallIntegerField("Rating", validators=[MinValueValidator(0), MaxValueValidator(5)])
 
+    def __str__(self):
+        return f"{self.first_name} {self.job}"
+
 
 class Article(Model):
     title = CharField("Title", max_length=255, null=True, blank=True)
     description = TextField("Description")
     image = ImageField("Image", upload_to='article/')
+
+    def __str__(self):
+        return self.title
 
 
 class AppliedClient(Model):
@@ -56,28 +70,51 @@ class AppliedClient(Model):
     phone_number = CharField("Phone Number", max_length=255)
     year_experience = SmallIntegerField("Experience")
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Companies(Model):
     name = CharField("Name", max_length=255, null=True, blank=True)
     image = ImageField("Image", upload_to='companies/')
     url = URLField("Url", max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
+
 class Question(Model):
     title = CharField("Title", max_length=255)
     body = TextField("Body")
+
+    def __str__(self):
+        return self.title
+
 
 class Answer(Model):
     title = CharField("Title", max_length=255)
     body = TextField("Body")
     question = ForeignKey("apps.Question", CASCADE)
 
+    def __str__(self):
+        return self.title
+
+
 class Shop(Model):
     title = CharField("Title", max_length=255, null=True, blank=True)
     description = TextField("Description")
     image = ImageField("Image", upload_to='shop/')
 
+    def __str__(self):
+        return self.title
+
+
 class TimeManagement(Model):
     working_time = CharField("Value", max_length=255, help_text="Full or Part Time and more")
+
+    def __str__(self):
+        return self.working_time
+
 
 class Agent(Model):
     first_name = CharField("First Name", max_length=255, null=True, blank=True)
@@ -90,6 +127,9 @@ class Agent(Model):
     search = CharField("search", max_length=255, null=True, blank=True)
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
 
+    def __str__(self):
+        return self.job
+
 
 WEEK_DAYS = [
     ("mon-fri", "Monday - Friday"),
@@ -98,6 +138,7 @@ WEEK_DAYS = [
     ("sat-sun", "Saturday - Sunday"),
     ("sun", "Only Sunday"),
 ]
+
 
 class AboutUs(Model):
     phone_number = CharField("Phone Number", max_length=255)
