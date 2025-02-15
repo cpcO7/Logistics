@@ -95,7 +95,6 @@ class Question(Model):
 
 
 class Answer(Model):
-    title = CharField("Title", max_length=255)
     body = TextField("Body")
     question = ForeignKey("apps.Question", CASCADE)
 
