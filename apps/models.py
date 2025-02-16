@@ -1,6 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Model, CharField, ImageField, URLField, ForeignKey, CASCADE, EmailField, \
-    TimeField
+    TimeField, DateTimeField
 from django.db.models.fields import TextField, SmallIntegerField
 from location_field.models.plain import PlainLocationField
 
@@ -172,3 +172,14 @@ class Contact(Model):
     comment = TextField("Comment")
     phone_number = CharField("Phone Number", max_length=255)
 
+class Profile(Model):
+    first_name = CharField("First Name", max_length=255)
+    last_name = CharField("Last Name", max_length=255)
+    birthday = DateTimeField("Birthday")
+    country = CharField("Country", max_length=255, null=True, blank=True)
+    city = CharField("City", max_length=255, null=True, blank=True)
+    itin = CharField("ITIN", max_length=255, null=True, blank=True)
+
+
+class Email(Model):
+    email = EmailField("Email", max_length=255)
