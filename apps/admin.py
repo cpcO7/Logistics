@@ -1,17 +1,15 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-from django.forms.models import BaseInlineFormSet
-from rest_framework.exceptions import ValidationError
 
 from apps.models import (
     Statistic, Group, Service, Partner,
     PartnerImage, ClientComment, Article, AppliedClient, Companies,
-    Question, Agent, AboutUs, TimeManagement
+    Question, Agent, AboutUs, TimeManagement, Email, Candidate, Contact
 )
 
 models = [
     Statistic, Group, Service, ClientComment, Article, Companies,
-    Question, Agent, TimeManagement
+    Question, Agent, TimeManagement, Email, Candidate, Contact
 ]
 
 for model in models:

@@ -1,6 +1,8 @@
+from PIL import Image
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import Model, CharField, ImageField, URLField, ForeignKey, CASCADE, EmailField, \
-    TimeField, DateTimeField
+    TimeField, DateTimeField, FileField
 from django.db.models.fields import TextField, SmallIntegerField
 from django_ckeditor_5.fields import CKEditor5Field
 from location_field.models.plain import PlainLocationField
@@ -30,6 +32,7 @@ class Service(Model):
     def __str__(self):
         return self.title
 
+
 class Partner(Model):
     title = CharField("Title", max_length=255)
     text = TextField("Text")
@@ -44,8 +47,6 @@ class Partner(Model):
 class PartnerImage(Model):
     partner = ForeignKey('apps.Partner', CASCADE)
     image = ImageField("Image", upload_to='partner/')
-
-
 
 
 class ClientComment(Model):
@@ -66,7 +67,7 @@ class Article(Model):
     image = ImageField("Image", upload_to='article/')
 
     def __str__(self):
-        if self.title:
+        if hasattr(self, 'title'):
             return self.title
 
         return (self.description[:20] + "...") if len(self.description) > 20 else self.description
@@ -85,17 +86,21 @@ class AppliedClient(Model):
 
 class Companies(Model):
     name = CharField("Name", max_length=255, null=True, blank=True)
-    image = ImageField("Image", upload_to='companies/')
+    image = FileField("Image", upload_to='companies/')
     url = URLField("Url", max_length=255, blank=True, null=True)
 
     def __str__(self):
         if hasattr(self, 'name'):
             return f"{self.name}"
 
+    class Meta:
+        verbose_name_plural = "Companies"
+
 
 class Question(Model):
     question = CharField("Question", max_length=255)
     answer = TextField("Answer")
+
     def __str__(self):
         return self.question
 
@@ -120,7 +125,7 @@ class Agent(Model):
     first_name = CharField("First Name", max_length=255, null=True, blank=True)
     last_name = CharField("Last Name", max_length=255, null=True, blank=True)
     email = CharField("Email", max_length=255, null=True, blank=True)
-    job = CharField("Job", max_length=255, null=True, blank=True)
+    job = CharField("Job", max_length=255)
     address = CharField("Address", max_length=255, null=True, blank=True)
     working_time = ForeignKey("apps.TimeManagement", CASCADE)
     image = ImageField("Image", upload_to='agent/')
@@ -173,6 +178,10 @@ class Contact(Model):
     comment = TextField("Comment")
     phone_number = CharField("Phone Number", max_length=255)
 
+    def __str__(self):
+        return f"{self.first_name} {self.email}"
+
+
 class Candidate(Model):
     first_name = CharField("First Name", max_length=255)
     last_name = CharField("Last Name", max_length=255)
@@ -181,6 +190,12 @@ class Candidate(Model):
     city = CharField("City", max_length=255, null=True, blank=True)
     itin = CharField("ITIN", max_length=255, null=True, blank=True)
 
+    def __str__(self):
+        return self.first_name
+
 
 class Email(Model):
     email = EmailField("Email", max_length=255)
+
+    def __str__(self):
+        return self.email

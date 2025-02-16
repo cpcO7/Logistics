@@ -14,3 +14,7 @@ req:
 
 load:
 	python3 manage.py loaddata country region district hosting_tariffs ssl_tariffs
+
+
+celery:
+	celery -A root worker -l INFO

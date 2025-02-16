@@ -9,6 +9,7 @@ from apps.models import Group, Service, Partner, ClientComment, Article, Compani
 from apps.serializers import GroupModelSerializer, ServiceModelSerializer, PartnerSerializer, ClientCommentSerializer, \
     ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, AgentSerializer, AboutUsSerializer, \
     AppliedClientSerializer, ContactSerializer, ProfileSerializer, EmailSerializer, StatisticSerializer
+from apps.tasks import send_email
 
 
 # Creating dynamic view classes means that you can combine the same views
@@ -58,3 +59,9 @@ class ProfileCreateApiView(CreateAPIView):
 class EmailCreateApiView(CreateAPIView):
     model = Email
     serializer_class = EmailSerializer
+
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        send_email.delay(email, 'Successfully sent email')
+        return super().post(request, *args, **kwargs)
+
