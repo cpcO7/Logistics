@@ -88,7 +88,7 @@ class Companies(Model):
     url = URLField("Url", max_length=255, blank=True, null=True)
 
     def __str__(self):
-        if self.name:
+        if hasattr(self, 'name'):
             return f"{self.name}"
 
 
