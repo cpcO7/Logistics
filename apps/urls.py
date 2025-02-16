@@ -21,6 +21,6 @@ urlpatterns = [
     path('about-us/', AboutUsAPIView.as_view(), name='about'),
     path('applied-client/', AppliedClientCreateApiView.as_view(), name='applied-client'),
     path('contact-create/', ContactCreateApiView.as_view(), name='contact-create'),
-    path('profile-create/', ProfileCreateApiView.as_view(), name='profile-create'),
-    path('candidate-create/', EmailCreateApiView.as_view(), name='email-create'),
+    path('candidate-create/', ProfileCreateApiView.as_view(), name='candidate-create'),
+    path('email-create/', EmailCreateApiView.as_view(), name='email-create'),
 ]
