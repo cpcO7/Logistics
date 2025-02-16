@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from drf_spectacular.utils import extend_schema_field
 
 from apps.models import Group, Service, Partner, PartnerImage, ClientComment, Article, Companies, Question, Shop, \
-    Agent, TimeManagement, AboutUs, AppliedClient, Contact, Candidate, Email
+    Agent, TimeManagement, AboutUs, AppliedClient, Contact, Candidate, Email, Statistic
 
 
 # Creating dynamic serializer classes means that you can combine the same views
@@ -53,3 +53,4 @@ AppliedClientSerializer = create_serializer(AppliedClient)
 ContactSerializer = create_serializer(Contact)
 ProfileSerializer = create_serializer(Candidate)
 EmailSerializer = create_serializer(Email)
+StatisticSerializer = create_serializer(Statistic)
