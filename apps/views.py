@@ -5,10 +5,10 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, Agent, AboutUs, \
-    AppliedClient
+    AppliedClient, Contact
 from apps.serializers import GroupModelSerializer, ServiceModelSerializer, PartnerSerializer, ClientCommentSerializer, \
     ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, AgentSerializer, AboutUsSerializer, \
-    AppliedClientSerializer
+    AppliedClientSerializer, ContactSerializer
 
 
 # Creating dynamic view classes means that you can combine the same views
@@ -45,3 +45,7 @@ class AboutUsAPIView(APIView):
 class AppliedClientCreateApiView(CreateAPIView):
     model = AppliedClient
     serializer_class = AppliedClientSerializer
+
+class ContactCreateApiView(CreateAPIView):
+    model = Contact
+    serializer_class = ContactSerializer

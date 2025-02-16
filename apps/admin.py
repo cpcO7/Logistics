@@ -1,16 +1,17 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.forms.models import BaseInlineFormSet
+from rest_framework.exceptions import ValidationError
 
 from apps.models import (
     Statistic, Group, Service, Partner,
-    PartnersImage, ClientComment, Article, AppliedClient, Companies,
-    Question, Answer, Agent, AboutUs, TimeManagement
+    PartnerImage, ClientComment, Article, AppliedClient, Companies,
+    Question, Agent, AboutUs, TimeManagement
 )
 
 models = [
-    Statistic, Group, Service, Partner,
-    PartnersImage, ClientComment, Article, Companies,
-    Question, Answer, Agent, TimeManagement
+    Statistic, Group, Service, ClientComment, Article, Companies,
+    Question, Agent, TimeManagement
 ]
 
 for model in models:
@@ -61,3 +62,24 @@ class AppliedClientAdmin(admin.ModelAdmin):
 
     class Media:
         js = ("admin/js/phone_mask.js",)
+
+class PartnerImageInline(admin.TabularInline):  # Yoki admin.StackedInline
+    model = PartnerImage
+    extra = 0
+    max_num = 3
+    min_num = 3
+
+
+@admin.register(Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    inlines = PartnerImageInline,
+    def has_add_permission(self, request):
+        if Partner.objects.exists():
+            return False
+        return True
+
+    def changelist_view(self, request, extra_context=None):
+        if Partner.objects.exists():
+            obj = Partner.objects.first()
+            return redirect(reverse('admin:apps_partner_change', args=[obj.id]))
+        return super().changelist_view(request, extra_context)

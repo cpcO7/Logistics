@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from apps.views import GroupReadOnlyViewSet, ServiceReadOnlyViewSet, PartnerReadOnlyViewSet, ClientCommentViewSet, \
     ArticleViewSet, CompaniesViewSet, QuestionViewSet, ShopViewSet, AgentViewSet, AboutUsAPIView, \
-    AppliedClientCreateApiView
+    AppliedClientCreateApiView, ContactCreateApiView
 
 router = DefaultRouter()
 router.register(r'group', GroupReadOnlyViewSet, basename='group')
@@ -20,4 +20,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('about-us/', AboutUsAPIView.as_view(), name='about'),
     path('applied-client/', AppliedClientCreateApiView.as_view(), name='applied-client'),
+    path('contact-create/', ContactCreateApiView.as_view(), name='contact-create'),
 ]

@@ -10,7 +10,7 @@ class Statistic(Model):
     value = CharField("Value", max_length=50)
 
     def __str__(self):
-        return f"{self.value} {self.title}"
+        return f"{self.title}  --  {self.value}"
 
 
 class Group(Model):
@@ -36,10 +36,15 @@ class Partner(Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = "Partner"
 
-class PartnersImage(Model):
+
+class PartnerImage(Model):
     partner = ForeignKey('apps.Partner', CASCADE)
     image = ImageField("Image", upload_to='partner/')
+
+
 
 
 class ClientComment(Model):
@@ -88,18 +93,10 @@ class Companies(Model):
 
 
 class Question(Model):
-    title = CharField("Title", max_length=255)
-
+    question = CharField("Question", max_length=255)
+    answer = TextField("Answer")
     def __str__(self):
-        return self.title
-
-
-class Answer(Model):
-    body = TextField("Body")
-    question = ForeignKey("apps.Question", CASCADE)
-
-    def __str__(self):
-        return self.body
+        return self.question
 
 
 class Shop(Model):
@@ -164,3 +161,14 @@ class AboutUs(Model):
 
     def __str__(self):
         return f"{self.phone_number}"
+
+
+class Contact(Model):
+    first_name = CharField("First Name", max_length=255, null=True, blank=True)
+    last_name = CharField("Last Name", max_length=255, null=True, blank=True)
+    email = EmailField("Email", max_length=255, null=True, blank=True)
+    website = URLField("Website", max_length=255, null=True, blank=True)
+    theme = CharField("Theme", max_length=255, null=True, blank=True)
+    comment = TextField("Comment")
+    phone_number = CharField("Phone Number", max_length=255)
+
