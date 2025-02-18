@@ -7,12 +7,24 @@ from django.db.models.fields import TextField, SmallIntegerField
 from django_ckeditor_5.fields import CKEditor5Field
 from location_field.models.plain import PlainLocationField
 
+from root.settings import MAX_IMAGE_SIZE
+
 
 def validate_image_size(image):
-    max_size = 10 * 1024 * 1024  # 10MB
-    if image.size > max_size:
-        raise ValidationError("❌ Image size must be less than 10 MB!")
+    max_size = MAX_IMAGE_SIZE
+    max_size_mb = max_size * (1024 * 1024)
 
+    if image.size > max_size_mb:
+        raise ValidationError(f"❌ Image size must be less than {max_size} MB!")
+
+class ValidateImageMixin:
+    def clean(self):
+        if hasattr(self, 'image') and self.image:
+            validate_image_size(self.image)
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
 class Statistic(Model):
     title = CharField("Title", max_length=255)
@@ -22,7 +34,7 @@ class Statistic(Model):
         return f"{self.title}  --  {self.value}"
 
 
-class Group(Model):
+class Group(ValidateImageMixin, Model):
     description = TextField("Text")
     image = ImageField("Image", upload_to='companies/')
 
@@ -30,7 +42,7 @@ class Group(Model):
         return self.description
 
 
-class Service(Model):
+class Service(ValidateImageMixin, Model):
     title = CharField("Title", max_length=255)
     description = TextField("Description")
     image = ImageField("Image", upload_to='service/')
@@ -39,7 +51,7 @@ class Service(Model):
         return self.title
 
 
-class Partner(Model):
+class Partner(ValidateImageMixin, Model):
     title = CharField("Title", max_length=255)
     text = TextField("Text")
     image = ImageField("Image", upload_to='partners/')
@@ -47,13 +59,7 @@ class Partner(Model):
     def __str__(self):
         return self.title
 
-    def clean(self):
-        if self.image:
-            validate_image_size(self.image)
 
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Partner"
@@ -70,7 +76,7 @@ class ClientComment(Model):
         return f"{self.first_name} {self.job}"
 
 
-class Article(Model):
+class Article(ValidateImageMixin, Model):
     title = CharField("Title", max_length=255, null=True, blank=True)
     description = CKEditor5Field("Description")
     image = ImageField("Image", upload_to='article/')
@@ -93,7 +99,7 @@ class AppliedClient(Model):
         return f"{self.first_name} {self.last_name}"
 
 
-class Companies(Model):
+class Companies(ValidateImageMixin, Model):
     name = CharField("Name", max_length=255, null=True, blank=True)
     image = FileField("Image", upload_to='companies/')
     url = URLField("Url", max_length=255, blank=True, null=True)
@@ -114,7 +120,7 @@ class Question(Model):
         return self.question
 
 
-class Shop(Model):
+class Shop(ValidateImageMixin, Model):
     title = CharField("Title", max_length=255, null=True, blank=True)
     description = TextField("Description")
     image = ImageField("Image", upload_to='shop/')
@@ -130,7 +136,7 @@ class TimeManagement(Model):
         return self.working_time
 
 
-class Agent(Model):
+class Agent(ValidateImageMixin, Model):
     first_name = CharField("First Name", max_length=255, null=True, blank=True)
     last_name = CharField("Last Name", max_length=255, null=True, blank=True)
     email = CharField("Email", max_length=255, null=True, blank=True)
