@@ -35,7 +35,7 @@ class Statistic(Model):
 
 
 class Group(ValidateImageMixin, Model):
-    description = TextField("Text")
+    description = CKEditor5Field("Text")
     image = ImageField("Image", upload_to='companies/')
 
     def __str__(self):
@@ -44,7 +44,7 @@ class Group(ValidateImageMixin, Model):
 
 class Service(ValidateImageMixin, Model):
     title = CharField("Title", max_length=255)
-    description = TextField("Description")
+    description = CKEditor5Field("Description")
     image = ImageField("Image", upload_to='service/')
 
     def __str__(self):
@@ -53,7 +53,7 @@ class Service(ValidateImageMixin, Model):
 
 class Partner(ValidateImageMixin, Model):
     title = CharField("Title", max_length=255)
-    text = TextField("Text")
+    text = CKEditor5Field("Text")
     image = ImageField("Image", upload_to='partners/')
 
     def __str__(self):
