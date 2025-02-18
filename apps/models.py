@@ -188,8 +188,6 @@ class Contact(Model):
     first_name = CharField("First Name", max_length=255, null=True, blank=True)
     last_name = CharField("Last Name", max_length=255, null=True, blank=True)
     email = EmailField("Email", max_length=255, null=True, blank=True)
-    website = URLField("Website", max_length=255, null=True, blank=True)
-    theme = CharField("Theme", max_length=255, null=True, blank=True)
     comment = TextField("Comment")
     phone_number = CharField("Phone Number", max_length=255)
 
