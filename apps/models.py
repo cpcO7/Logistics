@@ -145,9 +145,6 @@ class JobCategory(Model):
         verbose_name_plural = "Job Categories"
 
 class Job(ValidateImageMixin, Model):
-    first_name = CharField("First Name", max_length=255, null=True, blank=True)
-    last_name = CharField("Last Name", max_length=255, null=True, blank=True)
-    email = CharField("Email", max_length=255, null=True, blank=True)
     job = CharField("Job", max_length=255)
     address = CharField("Address", max_length=255, null=True, blank=True)
     working_time = ForeignKey("apps.TimeManagement", CASCADE)
