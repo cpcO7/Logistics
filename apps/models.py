@@ -8,6 +8,12 @@ from django_ckeditor_5.fields import CKEditor5Field
 from location_field.models.plain import PlainLocationField
 
 
+def validate_image_size(image):
+    max_size = 10 * 1024 * 1024  # 10MB
+    if image.size > max_size:
+        raise ValidationError("❌ Image size must be less than 10 MB!")
+
+
 class Statistic(Model):
     title = CharField("Title", max_length=255)
     value = CharField("Value", max_length=50)
@@ -40,6 +46,14 @@ class Partner(Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if self.image:
+            validate_image_size(self.image)
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Partner"
