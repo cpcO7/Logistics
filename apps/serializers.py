@@ -2,7 +2,7 @@ from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 from drf_spectacular.utils import extend_schema_field
 
-from apps.models import Group, Service, Partner, PartnerImage, ClientComment, Article, Companies, Question, Shop, \
+from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, \
     Agent, TimeManagement, AboutUs, AppliedClient, Contact, Candidate, Email, Statistic
 
 
@@ -41,7 +41,7 @@ def create_serializer(model_class, sub_model_class=None, sub_field=None):
 
 GroupModelSerializer = create_serializer(Group)
 ServiceModelSerializer = create_serializer(Service)
-PartnerSerializer = create_serializer(Partner, PartnerImage, "images")
+PartnerSerializer = create_serializer(Partner)
 ClientCommentSerializer = create_serializer(ClientComment)
 ArticleSerializer = create_serializer(Article)
 CompaniesSerializer = create_serializer(Companies)

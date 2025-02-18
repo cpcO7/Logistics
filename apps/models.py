@@ -36,18 +36,13 @@ class Service(Model):
 class Partner(Model):
     title = CharField("Title", max_length=255)
     text = TextField("Text")
+    image = ImageField("Image", upload_to='partners/')
 
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name_plural = "Partner"
-
-
-class PartnerImage(Model):
-    partner = ForeignKey('apps.Partner', CASCADE)
-    image = ImageField("Image", upload_to='partner/')
-
 
 class ClientComment(Model):
     first_name = CharField("First Name", max_length=100)

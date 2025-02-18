@@ -2,14 +2,13 @@ from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 
 from apps.models import (
-    Statistic, Group, Service, Partner,
-    PartnerImage, ClientComment, Article, AppliedClient, Companies,
+    Statistic, Group, Service, Partner, ClientComment, Article, AppliedClient, Companies,
     Question, Agent, AboutUs, TimeManagement, Email, Candidate, Contact
 )
 
 models = [
     Statistic, Group, Service, ClientComment, Article, Companies,
-    Question, Agent, TimeManagement, Email, Candidate, Contact
+    Question, Agent, TimeManagement, Email, Candidate, Contact, Partner
 ]
 
 for model in models:
@@ -60,24 +59,3 @@ class AppliedClientAdmin(admin.ModelAdmin):
 
     class Media:
         js = ("admin/js/phone_mask.js",)
-
-class PartnerImageInline(admin.TabularInline):  # Yoki admin.StackedInline
-    model = PartnerImage
-    extra = 0
-    max_num = 3
-    min_num = 3
-
-
-@admin.register(Partner)
-class PartnerAdmin(admin.ModelAdmin):
-    inlines = PartnerImageInline,
-    def has_add_permission(self, request):
-        if Partner.objects.exists():
-            return False
-        return True
-
-    def changelist_view(self, request, extra_context=None):
-        if Partner.objects.exists():
-            obj = Partner.objects.first()
-            return redirect(reverse('admin:apps_partner_change', args=[obj.id]))
-        return super().changelist_view(request, extra_context)
