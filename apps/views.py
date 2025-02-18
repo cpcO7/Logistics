@@ -1,14 +1,15 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, Agent, AboutUs, \
-    AppliedClient, Contact, Email, Statistic
+from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, Job, AboutUs, \
+    AppliedClient, Contact, Email, Statistic, JobCategory
 from apps.serializers import GroupModelSerializer, ServiceModelSerializer, PartnerSerializer, ClientCommentSerializer, \
-    ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, AgentSerializer, AboutUsSerializer, \
-    AppliedClientSerializer, ContactSerializer, ProfileSerializer, EmailSerializer, StatisticSerializer
+    ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, JobSerializer, AboutUsSerializer, \
+    AppliedClientSerializer, ContactSerializer, ProfileSerializer, EmailSerializer, StatisticSerializer, \
+    JobCategorySerializer
 from apps.tasks import send_email
 
 
@@ -30,8 +31,9 @@ ArticleViewSet = create_viewset(Article, ArticleSerializer)
 CompaniesViewSet = create_viewset(Companies, CompaniesSerializer)
 QuestionViewSet = create_viewset(Question, QuestionSerializer)
 ShopViewSet = create_viewset(Shop, ShopSerializer)
-AgentViewSet = create_viewset(Agent, AgentSerializer)
+JobViewSet = create_viewset(Job, JobSerializer)
 StatisticViewSet = create_viewset(Statistic, StatisticSerializer)
+JobCategoryListAPIView = create_viewset(JobCategory, JobCategorySerializer)
 
 @extend_schema(responses={200: AboutUsSerializer})
 class AboutUsAPIView(APIView):
@@ -64,4 +66,3 @@ class EmailCreateApiView(CreateAPIView):
         email = request.data.get('email')
         send_email.delay(email, 'Successfully sent email')
         return super().post(request, *args, **kwargs)
-

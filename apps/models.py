@@ -135,15 +135,24 @@ class TimeManagement(Model):
     def __str__(self):
         return self.working_time
 
+class JobCategory(Model):
+    title = CharField("Title", max_length=255)
 
-class Agent(ValidateImageMixin, Model):
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = "Job Categories"
+
+class Job(ValidateImageMixin, Model):
     first_name = CharField("First Name", max_length=255, null=True, blank=True)
     last_name = CharField("Last Name", max_length=255, null=True, blank=True)
     email = CharField("Email", max_length=255, null=True, blank=True)
     job = CharField("Job", max_length=255)
     address = CharField("Address", max_length=255, null=True, blank=True)
     working_time = ForeignKey("apps.TimeManagement", CASCADE)
-    image = ImageField("Image", upload_to='agent/')
+    image = ImageField("Image", upload_to='job/')
+    category = ForeignKey("apps.JobCategory", CASCADE, related_name='jobs')
     search = CharField("search", max_length=255, null=True, blank=True)
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
 
@@ -190,6 +199,7 @@ class Contact(Model):
     email = EmailField("Email", max_length=255, null=True, blank=True)
     comment = TextField("Comment")
     phone_number = CharField("Phone Number", max_length=255)
+    job = ForeignKey("apps.Job", CASCADE, related_name='contacts', null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.email}"
@@ -205,7 +215,6 @@ class Candidate(Model):
 
     def __str__(self):
         return self.first_name
-
 
 class Email(Model):
     email = EmailField("Email", max_length=255)
