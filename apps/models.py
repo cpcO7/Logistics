@@ -166,6 +166,7 @@ class Job(ValidateImageMixin, Model):
     category = ForeignKey("apps.JobCategory", CASCADE, related_name='jobs')
     search = CharField("search", max_length=255, null=True, blank=True)
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
+    description = CKEditor5Field("Description")
 
     def __str__(self):
         return self.job
