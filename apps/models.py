@@ -107,7 +107,8 @@ class CompanyCategory(Model):
         return self.title
 
     class Meta:
-        verbose_name_plural = "Company Category"
+
+        verbose_name_plural = "Company Categories"
 
 class Companies(ValidateImageMixin, Model):
     name = CharField("Name", max_length=255, null=True, blank=True)
