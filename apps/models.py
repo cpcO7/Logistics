@@ -183,7 +183,6 @@ WEEK_DAYS = [
 class AboutUs(Model):
     phone_number = CharField("Phone Number", max_length=255)
     email = EmailField("Email", max_length=255)
-    address = CharField("Address", max_length=255)
     facebook = URLField("Facebook", null=True, blank=True)
     twitter = URLField("Twitter", null=True, blank=True)
     instagram = URLField("Instagram", null=True, blank=True)
@@ -194,8 +193,17 @@ class AboutUs(Model):
     work_hour_start = TimeField("Work Start Time", default="09:00")
     work_hour_end = TimeField("Work End Time", default="18:00")
 
-    search = CharField("search", max_length=255, null=True, blank=True)
+    search = CharField("Search", max_length=255, null=True, blank=True, help_text="Enter a keyword to search.")
+    address = CharField("Address", max_length=255)
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
+
+    search1 = CharField("Search", max_length=255, null=True, blank=True, help_text="Enter a keyword to search.")
+    address1 = CharField("Address", max_length=255, null=True, blank=True)
+    location1 = PlainLocationField(based_fields=['search1'], null=True, blank=True)
+
+    search2 = CharField("Search", max_length=255, null=True, blank=True, help_text="Enter a keyword to search.")
+    address2 = CharField("Address", max_length=255, null=True, blank=True)
+    location2 = PlainLocationField(based_fields=['search2'], null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "About Us"

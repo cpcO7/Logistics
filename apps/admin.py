@@ -36,6 +36,11 @@ class AboutUsAdmin(admin.ModelAdmin):
             return redirect(reverse('admin:apps_aboutus_change', args=[obj.id]))
         return super().changelist_view(request, extra_context)
 
+    def save_model(self, request, obj, form, change):
+        obj.search = None
+        obj.search1 = None
+        obj.search2 = None
+        super().save_model(request, obj, form, change)
 
     fieldsets = (
         ("Main Information", {
@@ -48,8 +53,18 @@ class AboutUsAdmin(admin.ModelAdmin):
             "fields": ("work_day", "work_hour_start", "work_hour_end")
         }),
         (
-            "Address", {
+            "Main Address", {
                 "fields": ("address", "search", "location")
+            }
+        ),
+        (
+            "Address 1", {
+                "fields": ("address1", "search1", "location1")
+            }
+        ),
+        (
+            "Address 2", {
+                "fields": ("address2", "search2", "location2")
             }
         )
     )
