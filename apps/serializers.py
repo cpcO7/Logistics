@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from drf_spectacular.utils import extend_schema_field
 
 from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, \
-    Job, TimeManagement, AboutUs, AppliedClient, Contact, Candidate, Email, Statistic, JobCategory
+    Job, TimeManagement, AboutUs, AppliedClient, Contact, Candidate, Email, Statistic, JobCategory, CompanyCategory
 
 
 # Creating dynamic serializer classes means that you can combine the same views
@@ -50,4 +50,12 @@ class JobCategorySerializer(ModelSerializer):
 
     class Meta:
         model = JobCategory
+        fields = '__all__'
+
+
+class CompanyCategorySerializer(ModelSerializer):
+    companies = CompaniesSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = CompanyCategory
         fields = '__all__'

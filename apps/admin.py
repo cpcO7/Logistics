@@ -3,12 +3,12 @@ from django.contrib.admin import ModelAdmin
 
 from apps.models import (
     Statistic, Group, Service, Partner, ClientComment, Article, AppliedClient, Companies,
-    Question, Job, AboutUs, TimeManagement, Email, Candidate, Contact, JobCategory
+    Question, Job, AboutUs, TimeManagement, Email, Candidate, Contact, JobCategory, CompanyCategory
 )
 
 models = [
     Statistic, Group, Service, ClientComment, Article, Companies,
-    Question, Job, TimeManagement, Email, Candidate, Contact, Partner, JobCategory
+    Question, Job, TimeManagement, Email, Candidate, Contact, Partner, JobCategory, CompanyCategory
 ]
 
 for model in models:

@@ -17,6 +17,7 @@ def validate_image_size(image):
     if image.size > max_size_mb:
         raise ValidationError(f"❌ Image size must be less than {max_size} MB!")
 
+
 class ValidateImageMixin:
     def clean(self):
         if hasattr(self, 'image') and self.image:
@@ -25,6 +26,7 @@ class ValidateImageMixin:
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
+
 
 class Statistic(Model):
     title = CharField("Title", max_length=255)
@@ -59,10 +61,9 @@ class Partner(ValidateImageMixin, Model):
     def __str__(self):
         return self.title
 
-
-
     class Meta:
         verbose_name_plural = "Partner"
+
 
 class ClientComment(Model):
     first_name = CharField("First Name", max_length=100)
@@ -99,10 +100,20 @@ class AppliedClient(Model):
         return f"{self.first_name} {self.last_name}"
 
 
+class CompanyCategory(Model):
+    title = CharField("Title", max_length=255)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = "Company Category"
+
 class Companies(ValidateImageMixin, Model):
     name = CharField("Name", max_length=255, null=True, blank=True)
     image = FileField("Image", upload_to='companies/')
     url = URLField("Url", max_length=255, blank=True, null=True)
+    category = ForeignKey("apps.CompanyCategory", CASCADE, related_name='companies')
 
     def __str__(self):
         if hasattr(self, 'name'):
@@ -135,6 +146,7 @@ class TimeManagement(Model):
     def __str__(self):
         return self.working_time
 
+
 class JobCategory(Model):
     title = CharField("Title", max_length=255)
 
@@ -143,6 +155,7 @@ class JobCategory(Model):
 
     class Meta:
         verbose_name_plural = "Job Categories"
+
 
 class Job(ValidateImageMixin, Model):
     job = CharField("Job", max_length=255)
@@ -212,6 +225,7 @@ class Candidate(Model):
 
     def __str__(self):
         return self.first_name
+
 
 class Email(Model):
     email = EmailField("Email", max_length=255)

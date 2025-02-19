@@ -5,11 +5,11 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from apps.models import Group, Service, Partner, ClientComment, Article, Companies, Question, Shop, Job, AboutUs, \
-    AppliedClient, Contact, Email, Statistic, JobCategory
+    AppliedClient, Contact, Email, Statistic, JobCategory, CompanyCategory
 from apps.serializers import GroupModelSerializer, ServiceModelSerializer, PartnerSerializer, ClientCommentSerializer, \
     ArticleSerializer, CompaniesSerializer, QuestionSerializer, ShopSerializer, JobSerializer, AboutUsSerializer, \
     AppliedClientSerializer, ContactSerializer, ProfileSerializer, EmailSerializer, StatisticSerializer, \
-    JobCategorySerializer
+    JobCategorySerializer, CompanyCategorySerializer
 from apps.tasks import send_email
 
 
@@ -34,6 +34,7 @@ ShopViewSet = create_viewset(Shop, ShopSerializer)
 JobViewSet = create_viewset(Job, JobSerializer)
 StatisticViewSet = create_viewset(Statistic, StatisticSerializer)
 JobCategoryListAPIView = create_viewset(JobCategory, JobCategorySerializer)
+CompanyCategoryListAPIView = create_viewset(CompanyCategory, CompanyCategorySerializer)
 
 @extend_schema(responses={200: AboutUsSerializer})
 class AboutUsAPIView(APIView):
