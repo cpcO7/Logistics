@@ -162,7 +162,7 @@ class Job(ValidateImageMixin, Model):
     job = CharField("Job", max_length=255)
     address = CharField("Address", max_length=255, null=True, blank=True)
     working_time = ForeignKey("apps.TimeManagement", CASCADE)
-    image = ImageField("Image", upload_to='job/', null=True, blank=True)
+    image = ImageField("Image", upload_to='job/')
     category = ForeignKey("apps.JobCategory", CASCADE, related_name='jobs')
     search = CharField("search", max_length=255, null=True, blank=True)
     location = PlainLocationField(based_fields=['search'], default='41.2994958, 69.2400734')
