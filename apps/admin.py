@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.utils.safestring import mark_safe
 
 from apps.models import (
     Statistic, Group, Service, Partner, ClientComment, Article, AppliedClient, Companies,
@@ -7,8 +8,8 @@ from apps.models import (
 )
 
 models = [
-    Statistic, Group, Service, ClientComment, Article, Companies,
-    Question, Job, TimeManagement, Email, Candidate, Contact, Partner, JobCategory, CompanyCategory
+    Statistic, Service, ClientComment, Article,
+    Question, Job, TimeManagement, Email, Partner, JobCategory, CompanyCategory
 ]
 
 for model in models:
@@ -16,6 +17,24 @@ for model in models:
 
 from django.shortcuts import redirect
 from django.urls import reverse
+
+
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('formatted_description', 'image_tag',)
+
+    def formatted_description(self, obj):
+        return mark_safe(obj.description)
+
+    formatted_description.short_description = "Description"
+
+    def image_tag(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" width="30" height="30" style="object-fit: cover; border-radius: 5px;" />')
+        return "No Image"
+
+    image_tag.short_description = "Image"
 
 
 @admin.register(AboutUs)
@@ -68,9 +87,37 @@ class AboutUsAdmin(admin.ModelAdmin):
             }
         )
     )
+
+
 @admin.register(AppliedClient)
 class AppliedClientAdmin(admin.ModelAdmin):
-    list_display = ('phone_number',)
+    list_display = 'first_name', 'last_name', 'email', 'phone_number'
 
     class Media:
         js = ("admin/js/phone_mask.js",)
+
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = 'first_name', 'last_name', 'email', 'phone_number'
+
+
+@admin.register(Candidate)
+class CandidateAdmin(admin.ModelAdmin):
+    list_display = 'first_name', 'last_name', 'country', 'city'
+
+
+@admin.register(Companies)
+class CompaniesAdmin(admin.ModelAdmin):
+    list_display = 'name', 'image_tag', 'clickable_url'
+
+    def image_tag(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" width="30" height="30" style="object-fit: cover; border-radius: 5px;" />')
+        return "No Image"
+
+    def clickable_url(self, obj):
+        if obj.url:
+            return mark_safe(f'<a href="{obj.url}" target="_blank">{obj.url}</a>')
+        return "No URL"
