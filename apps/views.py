@@ -67,6 +67,6 @@ class EmailCreateApiView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
-        msg = render_to_string('mail_template.html', context={'domain': DOMAIN})
+        msg = render_to_string('mail_template.html', context={'website': DOMAIN})
         send_email.delay(email, msg, 'Kayili M Group LLC')
         return super().post(request, *args, **kwargs)
