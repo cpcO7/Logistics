@@ -394,5 +394,5 @@ CELERY_BROKER_URL = os.getenv('BROKER_URL')
 
 MAX_IMAGE_SIZE = int(os.getenv('MAX_IMAGE_SIZE'))
 
-DOMAIN = os.getenv('DOMAIN')
 SERVER = os.getenv('SERVER')
+WEBSITE = os.getenv('WEBSITE')
