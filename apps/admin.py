@@ -24,8 +24,11 @@ class GroupAdmin(admin.ModelAdmin):
     list_display = ('formatted_description', 'image_tag',)
 
     def formatted_description(self, obj):
-        return mark_safe(obj.description)
-
+        words = obj.description.split()
+        if len(words) < 15:
+            return mark_safe(" ".join(words))
+        return mark_safe(" ".join(words[:15]) + "...")
+ 
     formatted_description.short_description = "Description"
 
     def image_tag(self, obj):
