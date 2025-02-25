@@ -1,3 +1,4 @@
+from django.template.loader import render_to_string
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.response import Response
@@ -11,6 +12,7 @@ from apps.serializers import GroupModelSerializer, ServiceModelSerializer, Partn
     AppliedClientSerializer, ContactSerializer, ProfileSerializer, EmailSerializer, StatisticSerializer, \
     JobCategorySerializer, CompanyCategorySerializer
 from apps.tasks import send_email
+from root.settings import DOMAIN
 
 
 # Creating dynamic view classes means that you can combine the same views
@@ -65,5 +67,6 @@ class EmailCreateApiView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
-        send_email.delay(email, 'Successfully sent email')
+        msg = render_to_string('mail_template.html', context={'domain': DOMAIN})
+        send_email.delay(email, msg, 'Kayili M Group LLC')
         return super().post(request, *args, **kwargs)
