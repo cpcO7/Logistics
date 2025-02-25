@@ -1,34 +1,31 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<body>
-<div style="width:35rem;margin-left:auto;margin-right:auto">
-    <div class="adM">
-    </div>
-    <div style="border:none;border-bottom:solid 1px #d0d0d0;text-align:center">
-        <div class="adM">
-        </div>
-        <img src="https://{{ server }}/static/images/logo.png"
-             style="margin-bottom:1rem;text-align:center;width:5rem;margin-left:auto;margin-right:auto" class="CToWUd"
-             data-bit="iit">
-    </div>
-    <div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">
+    <div style="width: 35rem; max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
 
-            <h1>Welcome to Kayili M Group LLC</h1>
-            <p>You have been successfully verified on our website</p>
-    </div>
+        <!-- Logo -->
+        <div style="border-bottom: 1px solid #d0d0d0; text-align: center; padding-bottom: 15px;">
+            <img src="https://{{ server }}/static/images/logo.png" alt="Company Logo"
+                 style="width: 5rem; display: block; margin: auto;">
+        </div>
 
-    <div style="margin-top:3rem">
-        <div style="color:#636363;text-align:center">
-            Back to website: <a href="{{ website }}">Kayili M Group LLC</a><br>
-            All rights reserved
+        <!-- Greeting -->
+        <div style="text-align: center; margin-top: 20px;">
+            <h1 style="color: #333;">Welcome to Kayili M Group LLC</h1>
+            <p style="color: #555;">You have been successfully verified on our website.</p>
         </div>
-        <div class="yj6qo"></div>
-        <div class="adL">
+
+        <!-- Footer -->
+        <div style="margin-top: 3rem; text-align: center; color: #636363;">
+            <p>Back to website: <a href="{{ website }}" target="_blank" rel="noopener noreferrer" style="color: #007bff; text-decoration: none;">Kayili M Group LLC</a></p>
+            <p>All rights reserved</p>
         </div>
     </div>
-    <div class="adL">
-    </div>
-</div>
 </body>
 </html>
