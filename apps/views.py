@@ -12,7 +12,7 @@ from apps.serializers import GroupModelSerializer, ServiceModelSerializer, Partn
     AppliedClientSerializer, ContactSerializer, ProfileSerializer, EmailSerializer, StatisticSerializer, \
     JobCategorySerializer, CompanyCategorySerializer
 from apps.tasks import send_email
-from root.settings import DOMAIN
+from root.settings import DOMAIN, SERVER
 
 
 # Creating dynamic view classes means that you can combine the same views
@@ -67,6 +67,6 @@ class EmailCreateApiView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email')
-        msg = render_to_string('mail_template.html', context={'website': DOMAIN})
+        msg = render_to_string('mail_template.html', context={'website': DOMAIN, 'server': SERVER})
         send_email.delay(email, msg, 'Kayili M Group LLC')
         return super().post(request, *args, **kwargs)
