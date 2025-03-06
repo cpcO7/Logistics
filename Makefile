@@ -1,6 +1,6 @@
 mig:
-	python3 manage.py makemigrations
-	python3 manage.py migrate
+	python3 manage.py makemigrations --settings=root.settings_dev
+	python3 manage.py migrate --settings=root.settings_dev
 
 rm-mig:
 	find . -path "*/migrations/*.py" -not -name "__init__.py" -not -path "./.venv/*" -delete
