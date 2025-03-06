@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-0j+h4ox5gg$(4tw76u@xcanqme)d%w0zaxerrmdj^zl0@+l2kb
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["admin.cpco7.online", "cpco7.online", "logistics.cpco7.online", "localhost"]
+ALLOWED_HOSTS = ["admin.cpco7.online", "cpco7.online", "logistics.cpco7.online", "localhost", "127.0.0.1"]
 
 INSTALLED_APPS = [
     'jazzmin',
